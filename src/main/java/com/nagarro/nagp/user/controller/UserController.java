@@ -47,7 +47,7 @@ public class UserController {
 	}
 
 	/**
-	 * Update account details.
+	 * Update user details.
 	 *
 	 * @param id
 	 *            the id
@@ -56,7 +56,7 @@ public class UserController {
 	 * @return the user DTO
 	 */
 	@PutMapping(value = "/user/{id}")
-	public UserDTO updateAccountDetails(@PathVariable("id") final long id, @RequestBody UpdateUserInfoRequest request) {
+	public UserDTO updateUserDetails(@PathVariable("id") final long id, @RequestBody UpdateUserInfoRequest request) {
 		return this.userService.updateUserInfo(id, request);
 	}
 
