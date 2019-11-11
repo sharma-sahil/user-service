@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.nagarro.nagp.user.dao.IUserDAO;
+import com.nagarro.nagp.user.dto.CreateUserRequest;
 import com.nagarro.nagp.user.model.User;
 
 /**
@@ -18,10 +19,12 @@ public class UserDAOImpl implements IUserDAO {
 	private static List<User> users = new ArrayList<>();
 
 	@Override
-	public User createUser(User user) {
-		user.setUserID(getNewUserId());
-		users.add(user);
-		return users.get(users.size() - 1);
+	public User createUser(CreateUserRequest request) {
+		request.setUserID(getNewUserId());
+		User newUser = new User(getNewUserId(), request.getFirstName(), request.getLastName(), request.getCity(),
+				request.getState(), request.getCountry());
+		users.add(newUser);
+		return newUser;
 	}
 
 	@Override
@@ -33,6 +36,11 @@ public class UserDAOImpl implements IUserDAO {
 		}
 
 		return null;
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return users;
 	}
 
 	/**

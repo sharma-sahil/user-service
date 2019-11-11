@@ -1,9 +1,9 @@
-package com.nagarro.nagp.user.model;
+package com.nagarro.nagp.user.dto;
 
 /**
- * The Class User.
+ * The Class CreateUserRequest.
  */
-public class User {
+public class CreateUserRequest {
 
 	/** The user ID. */
 	private long userID;
@@ -23,37 +23,8 @@ public class User {
 	/** The country. */
 	private String country;
 
-	/**
-	 * Instantiates a new user.
-	 */
-	public User() {
-	}
-
-	/**
-	 * Instantiates a new user.
-	 *
-	 * @param userID
-	 *            the user ID
-	 * @param firstName
-	 *            the first name
-	 * @param lastName
-	 *            the last name
-	 * @param city
-	 *            the city
-	 * @param state
-	 *            the state
-	 * @param country
-	 *            the country
-	 */
-	public User(long userID, String firstName, String lastName, String city, String state, String country) {
-		super();
-		this.userID = userID;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.city = city;
-		this.state = state;
-		this.country = country;
-	}
+	/** The user account. */
+	private AccountDTO userAccount;
 
 	/**
 	 * Gets the user ID.
@@ -167,6 +138,25 @@ public class User {
 	 */
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	/**
+	 * Gets the user account.
+	 *
+	 * @return the user account
+	 */
+	public AccountDTO getUserAccount() {
+		return userAccount;
+	}
+
+	/**
+	 * Sets the user account.
+	 *
+	 * @param userAccount
+	 *            the new user account
+	 */
+	public void setUserAccount(AccountDTO userAccount) {
+		this.userAccount = userAccount;
 	}
 
 }

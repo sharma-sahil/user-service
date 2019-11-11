@@ -1,9 +1,11 @@
-package com.nagarro.nagp.user.model;
+package com.nagarro.nagp.user.dto;
+
+import java.util.List;
 
 /**
- * The Class User.
+ * The Class UserDTO.
  */
-public class User {
+public class UserDTO {
 
 	/** The user ID. */
 	private long userID;
@@ -23,36 +25,12 @@ public class User {
 	/** The country. */
 	private String country;
 
-	/**
-	 * Instantiates a new user.
-	 */
-	public User() {
-	}
+	private List<AccountDTO> userAccounts;
 
 	/**
-	 * Instantiates a new user.
-	 *
-	 * @param userID
-	 *            the user ID
-	 * @param firstName
-	 *            the first name
-	 * @param lastName
-	 *            the last name
-	 * @param city
-	 *            the city
-	 * @param state
-	 *            the state
-	 * @param country
-	 *            the country
+	 * Instantiates a new user dto.
 	 */
-	public User(long userID, String firstName, String lastName, String city, String state, String country) {
-		super();
-		this.userID = userID;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.city = city;
-		this.state = state;
-		this.country = country;
+	public UserDTO() {
 	}
 
 	/**
@@ -167,6 +145,25 @@ public class User {
 	 */
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	/**
+	 * Gets the user accounts.
+	 *
+	 * @return the user accounts
+	 */
+	public List<AccountDTO> getUserAccounts() {
+		return userAccounts;
+	}
+
+	/**
+	 * Sets the user accounts.
+	 *
+	 * @param userAccounts
+	 *            the new user accounts
+	 */
+	public void setUserAccounts(List<AccountDTO> userAccounts) {
+		this.userAccounts = userAccounts;
 	}
 
 }
