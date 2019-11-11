@@ -20,7 +20,6 @@ public class UserDAOImpl implements IUserDAO {
 
 	@Override
 	public User createUser(CreateUserRequest request) {
-		request.setUserID(getNewUserId());
 		User newUser = new User(getNewUserId(), request.getFirstName(), request.getLastName(), request.getCity(),
 				request.getState(), request.getCountry());
 		users.add(newUser);

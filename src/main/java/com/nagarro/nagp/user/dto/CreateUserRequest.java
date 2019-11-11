@@ -5,9 +5,6 @@ package com.nagarro.nagp.user.dto;
  */
 public class CreateUserRequest {
 
-	/** The user ID. */
-	private long userID;
-
 	/** The first name. */
 	private String firstName;
 
@@ -25,25 +22,6 @@ public class CreateUserRequest {
 
 	/** The user account. */
 	private AccountDTO userAccount;
-
-	/**
-	 * Gets the user ID.
-	 *
-	 * @return the user ID
-	 */
-	public long getUserID() {
-		return userID;
-	}
-
-	/**
-	 * Sets the user ID.
-	 *
-	 * @param userID
-	 *            the new user ID
-	 */
-	public void setUserID(long userID) {
-		this.userID = userID;
-	}
 
 	/**
 	 * Gets the first name.

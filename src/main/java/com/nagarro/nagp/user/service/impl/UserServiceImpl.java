@@ -56,6 +56,7 @@ public class UserServiceImpl implements IUserService {
 		account.setAccountNumber(request.getUserAccount().getAccountNumber());
 		account.setBalance(request.getUserAccount().getBalance());
 		account.setUserId(newUser.getUserID());
+		account.setBranch(request.getUserAccount().getBranch());
 
 		this.accountDAO.createAccount(account);
 
