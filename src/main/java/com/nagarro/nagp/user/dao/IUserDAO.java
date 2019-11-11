@@ -35,4 +35,11 @@ public interface IUserDAO {
 	 */
 	List<User> getAllUsers();
 
+	/**
+	 * Update user.
+	 *
+	 * @param user the user
+	 */
+	void updateUser(User user);
+
 }

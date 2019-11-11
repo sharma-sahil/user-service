@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.nagarro.nagp.user.dao.IAccountDAO;
 import com.nagarro.nagp.user.model.Account;
+import com.nagarro.nagp.user.model.User;
 
 /**
  * The Class AccountDAOImpl.

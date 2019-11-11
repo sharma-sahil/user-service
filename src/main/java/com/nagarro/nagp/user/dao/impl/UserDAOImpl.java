@@ -42,6 +42,16 @@ public class UserDAOImpl implements IUserDAO {
 		return users;
 	}
 
+	@Override
+	public void updateUser(User user) {
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getUserID() == user.getUserID()) {
+				users.set(i, user);
+				break;
+			}
+		}
+	}
+
 	/**
 	 * Gets the user id.
 	 *

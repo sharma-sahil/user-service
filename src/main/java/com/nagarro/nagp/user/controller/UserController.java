@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nagarro.nagp.user.dto.AccountDTO;
 import com.nagarro.nagp.user.dto.CreateUserRequest;
 import com.nagarro.nagp.user.dto.UpdateAccountRequest;
+import com.nagarro.nagp.user.dto.UpdateUserInfoRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
 import com.nagarro.nagp.user.service.IUserService;
 
@@ -43,6 +44,20 @@ public class UserController {
 	@GetMapping(value = "/user/{id}")
 	public UserDTO getUser(@PathVariable("id") final long id) {
 		return this.userService.getUser(id);
+	}
+
+	/**
+	 * Update account details.
+	 *
+	 * @param id
+	 *            the id
+	 * @param request
+	 *            the request
+	 * @return the user DTO
+	 */
+	@PutMapping(value = "/user/{id}")
+	public UserDTO updateAccountDetails(@PathVariable("id") final long id, @RequestBody UpdateUserInfoRequest request) {
+		return this.userService.updateUserInfo(id, request);
 	}
 
 	/**

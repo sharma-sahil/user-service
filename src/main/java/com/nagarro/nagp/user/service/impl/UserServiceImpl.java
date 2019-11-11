@@ -12,6 +12,7 @@ import com.nagarro.nagp.user.dao.IUserDAO;
 import com.nagarro.nagp.user.dto.AccountDTO;
 import com.nagarro.nagp.user.dto.CreateUserRequest;
 import com.nagarro.nagp.user.dto.UpdateAccountRequest;
+import com.nagarro.nagp.user.dto.UpdateUserInfoRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
 import com.nagarro.nagp.user.model.Account;
 import com.nagarro.nagp.user.model.User;
@@ -64,15 +65,37 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	public UserDTO updateUserInfo(final long userId, final UpdateUserInfoRequest request) {
+		User user = this.userDAO.getUser(userId);
+		if (null != request.getCity()) {
+			user.setCity(request.getCity());
+		}
+		if (null != request.getCountry()) {
+			user.setCountry(request.getCountry());
+		}
+		if (null != request.getFirstName()) {
+			user.setFirstName(request.getFirstName());
+		}
+		if (null != request.getLastName()) {
+			user.setLastName(request.getLastName());
+		}
+		if (null != request.getState()) {
+			user.setState(request.getState());
+		}
+		this.userDAO.updateUser(user);
+		return transformUserToUserDTO(user);
+	}
+
+	@Override
 	public List<AccountDTO> getUserAccounts(long userId) {
 		List<Account> userAccounts = this.accountDAO.getUserAccounts(userId);
 		return transformAccountDTOs(userAccounts);
 	}
-	
+
 	@Override
 	public AccountDTO getAccount(final String accountNumber) {
 		Account account = this.accountDAO.getAccount(accountNumber);
-		
+
 		AccountDTO retVal = new AccountDTO();
 		BeanUtils.copyProperties(account, retVal);
 		return retVal;
