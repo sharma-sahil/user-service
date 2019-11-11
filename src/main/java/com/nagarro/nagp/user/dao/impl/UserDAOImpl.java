@@ -50,7 +50,7 @@ public class UserDAOImpl implements IUserDAO {
 	private long getNewUserId() {
 
 		long userId = 1L;
-		if (null != users && users.size() > 1) {
+		if (null != users && users.size() > 0) {
 			userId = users.get(users.size() - 1).getUserID() + 1;
 		}
 

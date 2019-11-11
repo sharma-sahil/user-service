@@ -59,7 +59,7 @@ public class AccountDAOImpl implements IAccountDAO {
 	 */
 	private long getNewAccountId() {
 		long accountId = 1L;
-		if (null != accounts && accounts.size() > 1) {
+		if (null != accounts && accounts.size() > 0) {
 			accountId = accounts.get(accounts.size() - 1).getId() + 1;
 		}
 
