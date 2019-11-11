@@ -2,7 +2,9 @@ package com.nagarro.nagp.user.service;
 
 import java.util.List;
 
+import com.nagarro.nagp.user.dto.AccountDTO;
 import com.nagarro.nagp.user.dto.CreateUserRequest;
+import com.nagarro.nagp.user.dto.UpdateAccountRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
 
 /**
@@ -34,5 +36,32 @@ public interface IUserService {
 	 * @return the all users
 	 */
 	List<UserDTO> getAllUsers();
+
+	/**
+	 * Gets the user accounts.
+	 *
+	 * @param userId
+	 *            the user id
+	 * @return the user accounts
+	 */
+	List<AccountDTO> getUserAccounts(long userId);
+
+	/**
+	 * Update account details.
+	 *
+	 * @param request
+	 *            the request
+	 * @return the account DTO
+	 */
+	AccountDTO updateAccountDetails(String accountNumber, UpdateAccountRequest request);
+
+	/**
+	 * Gets the account.
+	 *
+	 * @param accountNumber
+	 *            the account number
+	 * @return the account
+	 */
+	AccountDTO getAccount(String accountNumber);
 
 }

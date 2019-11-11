@@ -14,6 +14,9 @@ public class AccountDTO {
 	/** The balance. */
 	private long balance;
 
+	/** The branch. */
+	private String branch;
+
 	/** The user id. */
 	private long userId;
 
@@ -78,6 +81,25 @@ public class AccountDTO {
 	 */
 	public void setBalance(long balance) {
 		this.balance = balance;
+	}
+
+	/**
+	 * Gets the branch.
+	 *
+	 * @return the branch
+	 */
+	public String getBranch() {
+		return branch;
+	}
+
+	/**
+	 * Sets the branch.
+	 *
+	 * @param branch
+	 *            the new branch
+	 */
+	public void setBranch(String branch) {
+		this.branch = branch;
 	}
 
 	/**

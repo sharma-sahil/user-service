@@ -24,8 +24,9 @@ public class AccountDAOImpl implements IAccountDAO {
 	}
 
 	@Override
-	public Account getAccount(long accountId) {
-		Optional<Account> accountOpt = accounts.stream().filter(a -> a.getId() == accountId).findFirst();
+	public Account getAccount(String accountNumber) {
+		Optional<Account> accountOpt = accounts.stream()
+				.filter(a -> a.getAccountNumber().equalsIgnoreCase(accountNumber)).findFirst();
 		if (accountOpt.isPresent()) {
 			return accountOpt.get();
 		}
@@ -39,6 +40,16 @@ public class AccountDAOImpl implements IAccountDAO {
 		accounts.add(account);
 
 		return account;
+	}
+
+	@Override
+	public void updateAccount(Account account) {
+		for (int i = 0; i < accounts.size(); i++) {
+			if (accounts.get(i).getAccountNumber().equalsIgnoreCase(account.getAccountNumber())) {
+				accounts.set(i, account);
+				break;
+			}
+		}
 	}
 
 	/**

@@ -21,18 +21,26 @@ public interface IAccountDAO {
 	/**
 	 * Gets the account.
 	 *
-	 * @param accountId
-	 *            the account id
+	 * @param accountNumber
+	 *            the account number
 	 * @return the account
 	 */
-	public Account getAccount(long accountId);
+	public Account getAccount(String accountNumber);
 
 	/**
 	 * Creates the account.
 	 *
-	 * @param account the account
+	 * @param account
+	 *            the account
 	 * @return the account
 	 */
 	Account createAccount(Account account);
+
+	/**
+	 * Update account.
+	 *
+	 * @param account the account
+	 */
+	void updateAccount(Account account);
 
 }

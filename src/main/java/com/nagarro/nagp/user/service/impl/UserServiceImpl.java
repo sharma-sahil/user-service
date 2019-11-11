@@ -11,6 +11,7 @@ import com.nagarro.nagp.user.dao.IAccountDAO;
 import com.nagarro.nagp.user.dao.IUserDAO;
 import com.nagarro.nagp.user.dto.AccountDTO;
 import com.nagarro.nagp.user.dto.CreateUserRequest;
+import com.nagarro.nagp.user.dto.UpdateAccountRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
 import com.nagarro.nagp.user.model.Account;
 import com.nagarro.nagp.user.model.User;
@@ -27,13 +28,13 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private IAccountDAO accountDAO;
-	
+
 	@Override
 	public List<UserDTO> getAllUsers() {
 		List<User> users = this.userDAO.getAllUsers();
-		
+
 		List<UserDTO> userDTOs = new ArrayList<>();
-		if(null != users && users.size() > 0){
+		if (null != users && users.size() > 0) {
 			users.forEach(u -> userDTOs.add(transformUserToUserDTO(u)));
 		}
 
@@ -49,7 +50,6 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public UserDTO createUser(CreateUserRequest request) {
-
 		User newUser = this.userDAO.createUser(request);
 
 		Account account = new Account();
@@ -60,6 +60,44 @@ public class UserServiceImpl implements IUserService {
 		this.accountDAO.createAccount(account);
 
 		return transformUserToUserDTO(newUser);
+	}
+
+	@Override
+	public List<AccountDTO> getUserAccounts(long userId) {
+		List<Account> userAccounts = this.accountDAO.getUserAccounts(userId);
+		return transformAccountDTOs(userAccounts);
+	}
+	
+	@Override
+	public AccountDTO getAccount(final String accountNumber) {
+		Account account = this.accountDAO.getAccount(accountNumber);
+		
+		AccountDTO retVal = new AccountDTO();
+		BeanUtils.copyProperties(account, retVal);
+		return retVal;
+	}
+
+	@Override
+	public AccountDTO updateAccountDetails(final String accountNumber, UpdateAccountRequest request) {
+
+		AccountDTO retVal = new AccountDTO();
+		Account account = this.accountDAO.getAccount(accountNumber);
+		if (null != account) {
+			switch (request.getAction()) {
+			case UPDATE_BALANCE:
+				account.setBalance(request.getBalance());
+				break;
+			case UPDATE_BRANCH:
+				account.setBranch(request.getBranch());
+				break;
+			default:
+				break;
+			}
+			this.accountDAO.updateAccount(account);
+			BeanUtils.copyProperties(account, retVal);
+		}
+
+		return retVal;
 	}
 
 	private UserDTO transformUserToUserDTO(User user) {
@@ -75,9 +113,7 @@ public class UserServiceImpl implements IUserService {
 		if (null != accounts && accounts.size() > 0) {
 			accounts.forEach(a -> {
 				AccountDTO dto = new AccountDTO();
-				dto.setId(a.getId());
-				dto.setAccountNumber(a.getAccountNumber());
-				dto.setBalance(a.getBalance());
+				BeanUtils.copyProperties(a, dto);
 				accountDTOs.add(dto);
 			});
 		}
