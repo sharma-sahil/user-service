@@ -3,6 +3,8 @@ package com.nagarro.nagp.user.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import com.nagarro.nagp.user.dto.CreateUserRequest;
 import com.nagarro.nagp.user.dto.UpdateAccountRequest;
 import com.nagarro.nagp.user.dto.UpdateUserInfoRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
+import com.nagarro.nagp.user.exception.InvalidParameterException;
 import com.nagarro.nagp.user.model.Account;
 import com.nagarro.nagp.user.model.User;
 import com.nagarro.nagp.user.service.IUserService;
@@ -23,6 +26,8 @@ import com.nagarro.nagp.user.service.IUserService;
  */
 @Service
 public class UserServiceImpl implements IUserService {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private IUserDAO userDAO;
@@ -43,14 +48,20 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserDTO getUser(long id) {
+	public UserDTO getUser(long id) throws InvalidParameterException {
 		User user = this.userDAO.getUser(id);
+
+		if (null == user) {
+			throw new InvalidParameterException("User with User id: " + id + "does not exist");
+		}
 
 		return transformUserToUserDTO(user);
 	}
 
 	@Override
 	public UserDTO createUser(CreateUserRequest request) {
+
+		LOGGER.debug("Creating a new User");
 		User newUser = this.userDAO.createUser(request);
 
 		Account account = new Account();
@@ -65,8 +76,13 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserDTO updateUserInfo(final long userId, final UpdateUserInfoRequest request) {
+	public UserDTO updateUserInfo(final long userId, final UpdateUserInfoRequest request)
+			throws InvalidParameterException {
+		LOGGER.debug("Updating user info");
 		User user = this.userDAO.getUser(userId);
+		if (null == user) {
+			throw new InvalidParameterException("User with User id: " + userId + "does not exist");
+		}
 		if (null != request.getCity()) {
 			user.setCity(request.getCity());
 		}
@@ -87,14 +103,21 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<AccountDTO> getUserAccounts(long userId) {
+	public List<AccountDTO> getUserAccounts(long userId) throws InvalidParameterException {
+		User user = this.userDAO.getUser(userId);
+		if (null == user) {
+			throw new InvalidParameterException("User with User id: " + userId + "does not exist");
+		}
 		List<Account> userAccounts = this.accountDAO.getUserAccounts(userId);
 		return transformAccountDTOs(userAccounts);
 	}
 
 	@Override
-	public AccountDTO getAccount(final String accountNumber) {
+	public AccountDTO getAccount(final String accountNumber) throws InvalidParameterException {
 		Account account = this.accountDAO.getAccount(accountNumber);
+		if (null == account) {
+			throw new InvalidParameterException("Account with account number: " + accountNumber + "does not exist");
+		}
 
 		AccountDTO retVal = new AccountDTO();
 		BeanUtils.copyProperties(account, retVal);
@@ -102,24 +125,28 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public AccountDTO updateAccountDetails(final String accountNumber, UpdateAccountRequest request) {
+	public AccountDTO updateAccountDetails(final String accountNumber, UpdateAccountRequest request)
+			throws InvalidParameterException {
+
+		LOGGER.debug("Updating {} of account: {}", request.getAction(), accountNumber);
 
 		AccountDTO retVal = new AccountDTO();
 		Account account = this.accountDAO.getAccount(accountNumber);
-		if (null != account) {
-			switch (request.getAction()) {
-			case UPDATE_BALANCE:
-				account.setBalance(request.getBalance());
-				break;
-			case UPDATE_BRANCH:
-				account.setBranch(request.getBranch());
-				break;
-			default:
-				break;
-			}
-			this.accountDAO.updateAccount(account);
-			BeanUtils.copyProperties(account, retVal);
+		if (null == account) {
+			throw new InvalidParameterException("Account with account number: " + accountNumber + "does not exist");
 		}
+		switch (request.getAction()) {
+		case UPDATE_BALANCE:
+			account.setBalance(request.getBalance());
+			break;
+		case UPDATE_BRANCH:
+			account.setBranch(request.getBranch());
+			break;
+		default:
+			break;
+		}
+		this.accountDAO.updateAccount(account);
+		BeanUtils.copyProperties(account, retVal);
 
 		return retVal;
 	}

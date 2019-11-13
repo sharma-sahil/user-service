@@ -7,6 +7,7 @@ import com.nagarro.nagp.user.dto.CreateUserRequest;
 import com.nagarro.nagp.user.dto.UpdateAccountRequest;
 import com.nagarro.nagp.user.dto.UpdateUserInfoRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
+import com.nagarro.nagp.user.exception.InvalidParameterException;
 
 /**
  * The Interface IUserService.
@@ -19,8 +20,10 @@ public interface IUserService {
 	 * @param id
 	 *            the id
 	 * @return the user
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
-	public UserDTO getUser(long id);
+	public UserDTO getUser(long id) throws InvalidParameterException;
 
 	/**
 	 * Creates the user.
@@ -44,17 +47,24 @@ public interface IUserService {
 	 * @param userId
 	 *            the user id
 	 * @return the user accounts
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
-	List<AccountDTO> getUserAccounts(long userId);
+	List<AccountDTO> getUserAccounts(long userId) throws InvalidParameterException;
 
 	/**
 	 * Update account details.
 	 *
+	 * @param accountNumber
+	 *            the account number
 	 * @param request
 	 *            the request
 	 * @return the account DTO
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
-	AccountDTO updateAccountDetails(String accountNumber, UpdateAccountRequest request);
+	AccountDTO updateAccountDetails(String accountNumber, UpdateAccountRequest request)
+			throws InvalidParameterException;
 
 	/**
 	 * Gets the account.
@@ -62,16 +72,22 @@ public interface IUserService {
 	 * @param accountNumber
 	 *            the account number
 	 * @return the account
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
-	AccountDTO getAccount(String accountNumber);
+	AccountDTO getAccount(String accountNumber) throws InvalidParameterException;
 
 	/**
 	 * Update user info.
 	 *
-	 * @param userId the user id
-	 * @param request the request
+	 * @param userId
+	 *            the user id
+	 * @param request
+	 *            the request
 	 * @return the user DTO
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
-	UserDTO updateUserInfo(long userId, UpdateUserInfoRequest request);
+	UserDTO updateUserInfo(long userId, UpdateUserInfoRequest request) throws InvalidParameterException;
 
 }

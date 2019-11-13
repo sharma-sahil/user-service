@@ -15,6 +15,7 @@ import com.nagarro.nagp.user.dto.CreateUserRequest;
 import com.nagarro.nagp.user.dto.UpdateAccountRequest;
 import com.nagarro.nagp.user.dto.UpdateUserInfoRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
+import com.nagarro.nagp.user.exception.InvalidParameterException;
 import com.nagarro.nagp.user.service.IUserService;
 
 /**
@@ -23,11 +24,16 @@ import com.nagarro.nagp.user.service.IUserService;
 @RestController
 public class UserController {
 
+	/** The user service. */
 	@Autowired
 	private IUserService userService;
 
 	/**
 	 * Creates the user.
+	 *
+	 * @param user
+	 *            the user
+	 * @return the user DTO
 	 */
 	@PostMapping(value = "/user")
 	public UserDTO createUser(@RequestBody final CreateUserRequest user) {
@@ -40,9 +46,11 @@ public class UserController {
 	 * @param id
 	 *            the id
 	 * @return the user
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
 	@GetMapping(value = "/user/{id}")
-	public UserDTO getUser(@PathVariable("id") final long id) {
+	public UserDTO getUser(@PathVariable("id") final long id) throws InvalidParameterException {
 		return this.userService.getUser(id);
 	}
 
@@ -54,17 +62,18 @@ public class UserController {
 	 * @param request
 	 *            the request
 	 * @return the user DTO
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
 	@PutMapping(value = "/user/{id}")
-	public UserDTO updateUserDetails(@PathVariable("id") final long id, @RequestBody UpdateUserInfoRequest request) {
+	public UserDTO updateUserDetails(@PathVariable("id") final long id, @RequestBody UpdateUserInfoRequest request)
+			throws InvalidParameterException {
 		return this.userService.updateUserInfo(id, request);
 	}
 
 	/**
 	 * Gets the user.
 	 *
-	 * @param id
-	 *            the id
 	 * @return the user
 	 */
 	@GetMapping(value = "/user")
@@ -79,9 +88,11 @@ public class UserController {
 	 * @param id
 	 *            the id
 	 * @return the user
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
 	@GetMapping(value = "/user/{id}/accounts")
-	public List<AccountDTO> getUserAccounts(@PathVariable("id") final long id) {
+	public List<AccountDTO> getUserAccounts(@PathVariable("id") final long id) throws InvalidParameterException {
 		return this.userService.getUserAccounts(id);
 	}
 
@@ -91,9 +102,12 @@ public class UserController {
 	 * @param accountNumber
 	 *            the account number
 	 * @return the account
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
 	@GetMapping(value = "/accounts/{accountNumber}")
-	public AccountDTO getAccount(@PathVariable("accountNumber") final String accountNumber) {
+	public AccountDTO getAccount(@PathVariable("accountNumber") final String accountNumber)
+			throws InvalidParameterException {
 		return this.userService.getAccount(accountNumber);
 	}
 
@@ -105,10 +119,12 @@ public class UserController {
 	 * @param request
 	 *            the request
 	 * @return the account DTO
+	 * @throws InvalidParameterException
+	 *             the invalid parameter exception
 	 */
 	@PutMapping(value = "/accounts/{accountNumber}")
 	public AccountDTO updateAccountDetails(@PathVariable("accountNumber") final String accountNumber,
-			@RequestBody UpdateAccountRequest request) {
+			@RequestBody UpdateAccountRequest request) throws InvalidParameterException {
 		return this.userService.updateAccountDetails(accountNumber, request);
 	}
 
