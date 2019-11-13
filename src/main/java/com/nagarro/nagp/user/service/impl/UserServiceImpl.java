@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nagarro.nagp.user.constants.UserConstants;
 import com.nagarro.nagp.user.dao.IAccountDAO;
 import com.nagarro.nagp.user.dao.IUserDAO;
 import com.nagarro.nagp.user.dto.AccountDTO;
@@ -52,7 +53,9 @@ public class UserServiceImpl implements IUserService {
 		User user = this.userDAO.getUser(id);
 
 		if (null == user) {
-			throw new InvalidParameterException("User with User id: " + id + "does not exist");
+			LOGGER.error(UserConstants.USER_NOT_FOUND, id);
+			throw new InvalidParameterException(UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_PREFIX + id
+					+ UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_SUFFIX);
 		}
 
 		return transformUserToUserDTO(user);
@@ -81,7 +84,9 @@ public class UserServiceImpl implements IUserService {
 		LOGGER.debug("Updating user info");
 		User user = this.userDAO.getUser(userId);
 		if (null == user) {
-			throw new InvalidParameterException("User with User id: " + userId + "does not exist");
+			LOGGER.error(UserConstants.USER_NOT_FOUND, userId);
+			throw new InvalidParameterException(UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_PREFIX + userId
+					+ UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_SUFFIX);
 		}
 		if (null != request.getCity()) {
 			user.setCity(request.getCity());
@@ -106,7 +111,9 @@ public class UserServiceImpl implements IUserService {
 	public List<AccountDTO> getUserAccounts(long userId) throws InvalidParameterException {
 		User user = this.userDAO.getUser(userId);
 		if (null == user) {
-			throw new InvalidParameterException("User with User id: " + userId + "does not exist");
+			LOGGER.error(UserConstants.USER_NOT_FOUND, userId);
+			throw new InvalidParameterException(UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_PREFIX + userId
+					+ UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_SUFFIX);
 		}
 		List<Account> userAccounts = this.accountDAO.getUserAccounts(userId);
 		return transformAccountDTOs(userAccounts);
@@ -116,7 +123,9 @@ public class UserServiceImpl implements IUserService {
 	public AccountDTO getAccount(final String accountNumber) throws InvalidParameterException {
 		Account account = this.accountDAO.getAccount(accountNumber);
 		if (null == account) {
-			throw new InvalidParameterException("Account with account number: " + accountNumber + "does not exist");
+			LOGGER.error(UserConstants.ACCOUNT_NOT_FOUND, accountNumber);
+			throw new InvalidParameterException(UserConstants.ACCOUNT_NOT_FOUND_ERROR_MESSAGE_PREFIX + accountNumber
+					+ UserConstants.ACCOUNT_NOT_FOUND_ERROR_MESSAGE_SUFFIX);
 		}
 
 		AccountDTO retVal = new AccountDTO();
@@ -133,7 +142,9 @@ public class UserServiceImpl implements IUserService {
 		AccountDTO retVal = new AccountDTO();
 		Account account = this.accountDAO.getAccount(accountNumber);
 		if (null == account) {
-			throw new InvalidParameterException("Account with account number: " + accountNumber + "does not exist");
+			LOGGER.error(UserConstants.ACCOUNT_NOT_FOUND, accountNumber);
+			throw new InvalidParameterException(UserConstants.ACCOUNT_NOT_FOUND_ERROR_MESSAGE_PREFIX + accountNumber
+					+ UserConstants.ACCOUNT_NOT_FOUND_ERROR_MESSAGE_SUFFIX);
 		}
 		switch (request.getAction()) {
 		case UPDATE_BALANCE:
