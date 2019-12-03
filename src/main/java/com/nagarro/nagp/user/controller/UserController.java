@@ -17,6 +17,7 @@ import com.nagarro.nagp.user.dto.UpdateUserInfoRequest;
 import com.nagarro.nagp.user.dto.UserDTO;
 import com.nagarro.nagp.user.exception.InvalidParameterException;
 import com.nagarro.nagp.user.service.IUserService;
+import com.nagarro.nagp.user.validator.InputValidator;
 
 /**
  * The Class UserController.
@@ -34,9 +35,11 @@ public class UserController {
 	 * @param user
 	 *            the user
 	 * @return the user DTO
+	 * @throws InvalidParameterException
 	 */
 	@PostMapping(value = "/user")
-	public UserDTO createUser(@RequestBody final CreateUserRequest user) {
+	public UserDTO createUser(@RequestBody final CreateUserRequest user) throws InvalidParameterException {
+		InputValidator.validateCreateUserRequest(user);
 		return this.userService.createUser(user);
 	}
 

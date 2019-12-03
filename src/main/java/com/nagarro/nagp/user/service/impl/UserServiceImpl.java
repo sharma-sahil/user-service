@@ -88,21 +88,7 @@ public class UserServiceImpl implements IUserService {
 			throw new InvalidParameterException(UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_PREFIX + userId
 					+ UserConstants.USER_NOT_FOUND_ERROR_MESSAGE_SUFFIX);
 		}
-		if (null != request.getCity()) {
-			user.setCity(request.getCity());
-		}
-		if (null != request.getCountry()) {
-			user.setCountry(request.getCountry());
-		}
-		if (null != request.getFirstName()) {
-			user.setFirstName(request.getFirstName());
-		}
-		if (null != request.getLastName()) {
-			user.setLastName(request.getLastName());
-		}
-		if (null != request.getState()) {
-			user.setState(request.getState());
-		}
+		updateUser(request, user);
 		this.userDAO.updateUser(user);
 		return transformUserToUserDTO(user);
 	}
@@ -180,6 +166,24 @@ public class UserServiceImpl implements IUserService {
 			});
 		}
 		return accountDTOs;
+	}
+
+	private void updateUser(final UpdateUserInfoRequest request, User user) {
+		if (null != request.getCity()) {
+			user.setCity(request.getCity());
+		}
+		if (null != request.getCountry()) {
+			user.setCountry(request.getCountry());
+		}
+		if (null != request.getFirstName()) {
+			user.setFirstName(request.getFirstName());
+		}
+		if (null != request.getLastName()) {
+			user.setLastName(request.getLastName());
+		}
+		if (null != request.getState()) {
+			user.setState(request.getState());
+		}
 	}
 
 }
